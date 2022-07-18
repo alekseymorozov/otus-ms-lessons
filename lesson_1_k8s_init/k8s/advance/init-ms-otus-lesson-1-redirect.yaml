@@ -1,26 +1,26 @@
-#this is the main manifest of homework
+#The advance task (+5 points) - should be deployed separately
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: otus-ms-lesson-1
+  name: otus-ms-lesson-1-adv
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: health-checker
-  namespace: otus-ms-lesson-1
+  name: health-checker-adv
+  namespace: otus-ms-lesson-1-adv
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: health-checker
+      app: health-checker-adv
   template:
     metadata:
       labels:
-        app: health-checker
+        app: health-checker-adv
     spec:
       containers:
-        - name: health-checker
+        - name: health-checker-adv
           image: mornimf/otus-health-checker-js
           imagePullPolicy: IfNotPresent
           ports:
@@ -42,22 +42,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: entrypoint
-  namespace: otus-ms-lesson-1
+  name: entrypoint-adv
+  namespace: otus-ms-lesson-1-adv
 spec:
   type: ClusterIP
   ports:
     - port: 8000
       targetPort: 8000
   selector:
-    app: health-checker
+    app: health-checker-adv
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: health-ingress
-  namespace: otus-ms-lesson-1
+  name: rewrite-ingress
+  namespace: otus-ms-lesson-1-adv
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
 spec:
@@ -68,7 +69,7 @@ spec:
           - pathType: Prefix
             backend:
               service:
-                name: entrypoint
+                name: entrypoint-adv
                 port:
                   number: 8000
-            path: /
+            path: /otusapp/aleksey.morozov(/|$)(.*)
