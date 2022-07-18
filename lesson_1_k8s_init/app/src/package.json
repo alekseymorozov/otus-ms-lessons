@@ -1,0 +1,12 @@
+{
+  "name": "OtusNodeJsTest",
+  "version": "1.0.0",
+  "description": "Testing K8S and Node.js on Docker for Otus lessons",
+  "dependencies": {
+    "express": "^4.18.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js"
+}

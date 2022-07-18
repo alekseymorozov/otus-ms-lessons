@@ -1,0 +1,4 @@
+docker build . -t mornimf/otus-health-checker-js
+docker images
+docker push mornimf/otus-health-checker-js
+docker run -p 8000:8000 -d mornimf/otus-health-checker-js

@@ -1,0 +1,17 @@
+kubectl create namespace testing
+----
+kubectl -n testing exec -ti POD -- /bin/sh
+kubectl -n testing logs POD
+----
+kubectl -n testing rollout restart deployment/myapp
+----
+kubectl --namespace testing port-forward pod/POD 5678:5678
+----
+helm install gateway --namespace ingress-nginx \
+  --values nginx-config.yaml \
+  ingress-nginx/ingress-nginx #--version ${ingress_nginx_version}
+----
+kubectl apply -f .
+----
+kubectl delete namespace otus-ms-lesson-1
+----

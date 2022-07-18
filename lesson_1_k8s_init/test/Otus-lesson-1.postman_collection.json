@@ -1,0 +1,38 @@
+{
+	"info": {
+		"_postman_id": "05c1f03c-118e-4c5e-8900-1f1b909365bc",
+		"name": "Otus-lesson-1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1128237"
+	},
+	"item": [
+		{
+			"name": "Health check",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Redirect check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "arch.homework:80/otusapp/aleksey.morozov",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"port": "80",
+					"path": [
+						"otusapp",
+						"aleksey.morozov"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
