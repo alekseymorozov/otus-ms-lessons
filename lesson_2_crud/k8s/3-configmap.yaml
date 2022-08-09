@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crud-config
+  namespace: otus-ms-lesson-2
+data:
+  validate-db: validate

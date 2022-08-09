@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-backend
+  namespace: otus-ms-lesson-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: crud-backend
+  template:
+    metadata:
+      labels:
+        app: crud-backend
+    spec:
+      containers:
+        - name: crud-backend
+          image: mornimf/otus-crud-backend
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_DATASOURCE_HOST
+              value: postgres
+            - name: SPRING_DATASOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: db-name
+                  name: secrets
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db-username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db-password
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: crud-config
+                  key: validate-db
+          ports:
+            - containerPort: 8000
+#          livenessProbe:
+#            httpGet:
+#              port: 8000
+#              path: /api/v1/health
+#            initialDelaySeconds: 10
+#            periodSeconds: 5
+#            timeoutSeconds: 2
+#          readinessProbe:
+#            httpGet:
+#              port: 8000
+#              path: /api/v1/health
+#            initialDelaySeconds: 10
+#            periodSeconds: 5

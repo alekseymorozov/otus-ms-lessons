@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-init-job2
+  namespace: otus-ms-lesson-2
+  labels:
+    app: db-init-job
+spec:
+  template:
+    metadata:
+      name: db-init-job
+      labels:
+        app: db-init-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: insert
+          env:
+            - name: DATABASE_URI
+              value: postgres
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db-username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: db-password
+            - name: SPRING_DATASOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: db-name
+                  name: secrets
+          image: postgres:11
+          command:
+            - sh
+            - "-c"
+            - |
+              PGPASSWORD=$SPRING_DATASOURCE_PASSWORD psql -d $SPRING_DATASOURCE_NAME -U $SPRING_DATASOURCE_USERNAME -h $DATABASE_URI  <<'EOF'
+                create table users (id int8 not null, email varchar(255), first_name varchar(255), last_name varchar(255), phone varchar(255), username varchar(255), primary key (id));
+                create sequence hibernate_sequence start 1 increment 1;
+              EOF
+  backoffLimit: 0 #number of retries before considering a Job as failed
