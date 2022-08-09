@@ -17,7 +17,7 @@ spec:
         - name: insert
           env:
             - name: DATABASE_URI
-              value: postgres
+              value:  postgres-postgresql
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:

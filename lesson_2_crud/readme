@@ -1,8 +1,13 @@
- Для запуска приложения в Kubernetes необходимо выполнить манифесты (/k8s) в следующем порядке:
+ Все действия по деплойменту и установки необходимо выполнять внутри папки /k8s
+ Для запуска приложения в Kubernetes необходимо выполнить базовые манифесты в следующем порядке:
  1-namespace.yaml
  2-secrets.yaml
  3-configmap.yaml
- 4-postgres.yaml
+
+Затем необходимо поставить postgresql через helm (если не добавлен репозиторий нужно добавить - helm repo add bitnami https://charts.bitnami.com/bitnami )
+helm install postgres -f postgresql-values.yaml -n otus-ms-lesson-2 bitnami/postgresql
+
+После успешной установки postgresql необходимо докатить следующие манифесты
  5-initdb.yaml
  6-deployment.yaml
  7-service.yaml
