@@ -1,0 +1,43 @@
+springfox:
+  documentation:
+    open-api:
+      v3:
+        path: /api-docs
+server:
+  servlet:
+    contextPath: /api/v1
+  port: 8000
+  jackson:
+    date-format: io.swagger.RFC3339DateFormat
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+spring:
+  datasource:
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+    url: jdbc:postgresql://${SPRING_DATASOURCE_HOST:localhost}:5432/${SPRING_DATASOURCE_NAME:compose-postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:compose-postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:compose-postgres}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+management:
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    distribution:
+      slo:
+        http.server.requests: 10ms, 50ms, 100ms, 200ms, 300ms, 400ms, 500ms
+    export:
+      prometheus:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
