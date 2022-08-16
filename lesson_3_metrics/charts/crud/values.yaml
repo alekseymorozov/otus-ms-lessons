@@ -1,0 +1,21 @@
+application:
+  backend:
+    name: crud-backend
+    image: mornimf/otus-crud-backend
+    replicaCount: 3
+    port: 8000
+    metricsPort: crud-backend-metrics
+  service:
+    name: crud-backend-svc
+  secrets:
+    name: crud-secrets
+  configs:
+    name: crud-configmap
+  db:
+    name: postgresql
+  ingress:
+    name: crud-ingress
+  initJob:
+    name: db-init-job2
+  metrics:
+    name: crud-srv-monitor

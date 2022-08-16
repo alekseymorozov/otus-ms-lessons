@@ -1,0 +1,9 @@
+global:
+  postgresql:
+    auth:
+      existingSecret: crud-secrets
+      secretKeys:
+        userPasswordKey: db-password
+        adminPasswordKey: db-password
+        username: db-username
+        database: db-name

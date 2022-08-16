@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.application.backend.name}}
+spec:
+  replicas: {{.Values.application.backend.replicaCount}}
+  selector:
+    matchLabels:
+      app: crud-backend
+  template:
+    metadata:
+      labels:
+        app: crud-backend
+    spec:
+      containers:
+        - name: crud-backend
+          image: {{.Values.application.backend.image}}
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_DATASOURCE_HOST
+              value: postgres-postgresql
+            - name: SPRING_DATASOURCE_NAME
+              valueFrom:
+                secretKeyRef:
+                  key: db-name
+                  name: {{.Values.application.secrets.name}}
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.application.secrets.name}}
+                  key: db-username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{.Values.application.secrets.name}}
+                  key: db-password
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                configMapKeyRef:
+                  name: {{.Values.application.configs.name}}
+                  key: validate-db
+          ports:
+            - containerPort: {{.Values.application.backend.port}}
+#          livenessProbe:
+#            httpGet:
+#              port: 8000
+#              path: /api/v1/health
+#            initialDelaySeconds: 10
+#            periodSeconds: 5
+#            timeoutSeconds: 2
+#          readinessProbe:
+#            httpGet:
+#              port: 8000
+#              path: /api/v1/health
+#            initialDelaySeconds: 10
+#            periodSeconds: 5
