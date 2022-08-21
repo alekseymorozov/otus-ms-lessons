@@ -11,5 +11,5 @@ spec:
       path: /api/v1/actuator/prometheus
   selector:
     matchLabels:
-      app: metrics-demo
+      app: {{.Values.application.service.name}}
   

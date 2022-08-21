@@ -6,14 +6,14 @@ spec:
   replicas: {{.Values.application.backend.replicaCount}}
   selector:
     matchLabels:
-      app: crud-backend
+      app: {{.Values.application.backend.name}}
   template:
     metadata:
       labels:
-        app: crud-backend
+        app: {{.Values.application.backend.name}}
     spec:
       containers:
-        - name: crud-backend
+        - name: {{.Values.application.backend.name}}
           image: {{.Values.application.backend.image}}
           imagePullPolicy: IfNotPresent
           env:

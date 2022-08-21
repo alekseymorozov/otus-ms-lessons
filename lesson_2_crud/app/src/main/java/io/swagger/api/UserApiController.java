@@ -57,12 +57,16 @@ public class UserApiController implements UserApi {
 
     public ResponseEntity<Void> createUser(@Parameter(in = ParameterIn.DEFAULT, description = "Created user object", required=true, schema=@Schema()) @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
+        //FIXME: чисто для тестирования (если номер больше 700),то бросаем ошибку
+        if(body.getId()>700) {
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         userRepository.save(body);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteUser(@Parameter(in = ParameterIn.PATH, description = "ID of user", required=true, schema=@Schema()) @PathVariable("userId") Long userId) {
-        String accept = request.getHeader("Accept");
+        String accчept = request.getHeader("Accept");
         userRepository.deleteById(userId);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
